@@ -39,7 +39,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
     <TextView
-        android:id="@+id/textViewTitle"
+        android:id="@+id/textViewQuestion"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -253,7 +253,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             android:text="TextView"
-            android:textColor="@android:color/black"
+            android:textColor="@color/colorPrimaryDark"
             android:textSize="18sp"
             app:layout_constraintBottom_toTopOf="@+id/hardEditText"
             app:layout_constraintEnd_toEndOf="parent"

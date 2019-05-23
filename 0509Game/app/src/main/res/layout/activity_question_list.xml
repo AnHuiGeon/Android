@@ -31,11 +31,13 @@
 
         <EditText
             android:id="@+id/password"
+            style="@style/TextBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="numberPassword"
             android:text="1234"
+            android:textAlignment="center"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -43,11 +45,11 @@
 
         <Button
             android:id="@+id/buttonLogin"
+            style="@style/BigText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:text="들어가기"
-            style="@style/BigText"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/password" />

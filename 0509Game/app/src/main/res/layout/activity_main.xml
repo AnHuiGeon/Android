@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
-        app:layout_constraintBottom_toTopOf="@+id/textView"
+        app:layout_constraintBottom_toTopOf="@+id/textViewMode"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
@@ -32,14 +32,14 @@
 
     <Button
         android:id="@+id/buttonStart"
+        style="@style/BigText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="32dp"
         android:text="시작"
-        style="@style/BigText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewMode" />
 
     <ImageView
         android:id="@+id/imageLogin"
@@ -50,31 +50,14 @@
         app:srcCompat="@drawable/idea" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/textViewMode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="선택 된 난도가 없을 때 : 모드를 선택해주세요"
-        android:textColor="@android:color/holo_red_dark"
+        android:text=""
+        android:textColor="@color/colorPrimaryDark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Easy 선택 : 모든 문제가 객관식으로 출제됩니다."
-        android:textColor="@android:color/holo_red_dark"
-        app:layout_constraintStart_toStartOf="@+id/textView"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hard 선택 : 객관식과 주관식이 출제됩니다."
-        android:textColor="@android:color/holo_red_dark"
-        app:layout_constraintStart_toStartOf="@+id/textView2"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
 </android.support.constraint.ConstraintLayout>

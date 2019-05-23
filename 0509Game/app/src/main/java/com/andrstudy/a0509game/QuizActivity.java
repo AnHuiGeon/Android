@@ -3,6 +3,7 @@ package com.andrstudy.a0509game;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -12,7 +13,6 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -20,7 +20,7 @@ public class QuizActivity extends AppCompatActivity {
     private ConstraintLayout easyTextLayout, imageLayout, hardTextLayout;   // easyTextLayout -> Easy, imageLayout -> Easy, Hard 모든 상황에 다 나옴, hardTextLayout -> Hard
     private RadioGroup radioGroup;  // hardTextLayout일 때만 INVISIVLE
     private RadioButton radio1, radio2, radio3, radio4;    // 유저가 누른 답(radioChoice)과 DB의 답을 비교하라
-    private TextView easyExample1, easyExample2, easyExample3, easyExample4, scoreTextView, hardExample, textViewTitle;
+    private TextView easyExample1, easyExample2, easyExample3, easyExample4, scoreTextView, hardExample, textViewTitle, textViewTitleContent;
     private ImageView imageExample1, imageExample2, imageExample3, imageExample4;   // EASY, HARD 모든 상황에 다 나옴
     private EditText hardEditText;  // HARD
     private Button submit;  // 답 제출
@@ -29,6 +29,8 @@ public class QuizActivity extends AppCompatActivity {
     public String questionMode = null;  // 질문이 Text인지 Image인지 DB에 저장된 값으로 설정하라
     public static int gameCountStart;
     public static int gameCountEnd;
+    public static int code;
+    static final int DIALOG_REQ = 330;
 
     private ArrayList<QuestionBean> data;
     private QuestionBean question;
@@ -37,7 +39,7 @@ public class QuizActivity extends AppCompatActivity {
     public int radioChoice;    // 사용자가 선택한 라디오 버튼이 몇번인지 저장
 
     public void layoutSet(){
-        Toast.makeText(this,""+gameCountStart,Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this,""+gameCountStart,Toast.LENGTH_SHORT).show();
         if(gameCountStart < gameCountEnd){
             question = data.get(gameCountStart);
             if(gameLevel == false){ // false : easy
@@ -66,6 +68,8 @@ public class QuizActivity extends AppCompatActivity {
                 textViewTitle.setText(question.getQuestion());
                 questionMode = question.getType();
                 if(questionMode.equals(QuestionBean.TYPE_TEXT)){
+                    textViewTitleContent.setVisibility(View.INVISIBLE);
+                    textViewTitle.setVisibility(View.INVISIBLE);
                     radioGroup.setVisibility(View.INVISIBLE);
                     imageLayout.setVisibility(View.INVISIBLE);
                     hardTextLayout.setVisibility(View.VISIBLE);
@@ -74,6 +78,8 @@ public class QuizActivity extends AppCompatActivity {
                     hardTextLayout.setVisibility(View.INVISIBLE);
                     radioGroup.setVisibility(View.VISIBLE);
                     imageLayout.setVisibility(View.VISIBLE);
+                    textViewTitleContent.setVisibility(View.VISIBLE);
+                    textViewTitle.setVisibility(View.VISIBLE);
                     textViewTitle.setText(question.getQuestion());
                     imageExample1.setImageURI(Uri.parse(question.getEx1()));
                     imageExample2.setImageURI(Uri.parse(question.getEx2()));
@@ -86,6 +92,7 @@ public class QuizActivity extends AppCompatActivity {
             finish();
         }
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,7 +101,8 @@ public class QuizActivity extends AppCompatActivity {
         gameScore = 0;
         Intent intent = getIntent();
         gameLevel = intent.getExtras().getBoolean("GameMode");
-        textViewTitle = findViewById(R.id.textViewTitle);
+        textViewTitleContent = findViewById(R.id.textView10);
+        textViewTitle = findViewById(R.id.textViewQuestion);
         scoreTextView = findViewById(R.id.scorePointView);
         imageLayout = findViewById(R.id.imageLayout);
         radioGroup = findViewById(R.id.RadioGroup);
@@ -189,7 +197,9 @@ public class QuizActivity extends AppCompatActivity {
                 if(yesOrNo == true){
                     gameScore += question.getScore();
                     scoreTextView.setText(String.valueOf(gameScore));
+                    radioGroup.clearCheck();
                     gameCountStart ++;
+                    hardEditText.setText(null);
                     radioChoice = 0;
                     if(gameCountStart == gameCountEnd){
                         dialogIntent.putExtra("message", "EndGame");
@@ -199,15 +209,33 @@ public class QuizActivity extends AppCompatActivity {
                         dialogIntent.putExtra("totalScore", question.getScore());
                     }
                 }else if(yesOrNo == false){
-                    if(radioChoice == 0){
-                        dialogIntent.putExtra("message", "Choice");
-                    }else if(radioChoice > 0) {
-                        dialogIntent.putExtra("message", "No");
+                    if(gameLevel == true && question.getType().equals(QuestionBean.TYPE_TEXT)){
+                        if(hardEditText.getText().length() == 0){
+                            dialogIntent.putExtra("message", "NoText");
+                        }else{
+                            dialogIntent.putExtra("message", "No");
+                        }
+                    }else {
+                        if (radioChoice == 0) {
+                            dialogIntent.putExtra("message", "Choice");
+                        } else if (radioChoice > 0) {
+                            dialogIntent.putExtra("message", "No");
+                        }
                     }
                 }
-                startActivity(dialogIntent);
-                layoutSet();
+                startActivityForResult(dialogIntent, DIALOG_REQ);
+//                layoutSet();
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == DIALOG_REQ){
+            if(resultCode == RESULT_OK){
+                layoutSet();
+            }
+        }
     }
 }

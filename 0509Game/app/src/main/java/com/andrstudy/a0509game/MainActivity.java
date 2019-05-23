@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
     static int READ_STOREAGE = 0;
@@ -18,13 +19,14 @@ public class MainActivity extends AppCompatActivity {
     static boolean checked = false;
     private Button buttonHard, buttonEasy, buttonStart;
     private ImageView imageLogin;
+    private TextView textViewMode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+        // 버전 검사 + 권한 부여
         if (Build.VERSION.SDK_INT >= 23) {
             int permission = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
             if (permission != PackageManager.PERMISSION_GRANTED) {
@@ -32,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+        textViewMode = findViewById(R.id.textViewMode);
+        textViewMode.setText("모드를 선택해주세요");
         buttonEasy = findViewById(R.id.buttonEasy);
         buttonEasy.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -39,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
                 checked = true;
                 easymode = true;
                 hardmode = false;
+                textViewMode.setText("모든 문제가 객관식으로 출제됩니다.");
             }
         });
         buttonHard = findViewById(R.id.buttonHard);
@@ -48,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
                 checked = true;
                 hardmode = true;
                 easymode = false;
+                textViewMode.setText("객관식과 주관식이 출제됩니다.");
             }
         });
 

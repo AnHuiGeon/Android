@@ -13,8 +13,11 @@
     </style>
     <style name="BigText" parent="Widget.AppCompat.Button">
         <item name="android:textSize">20sp</item>
-        <item name="android:background">@drawable/button_background</item>
         <item name="android:textColor">@color/button_text_color</item>
+        <item name="android:background">@drawable/button_background</item>
+    </style>
+    <style name="TextBox" parent="Widget.AppCompat.Light.AutoCompleteTextView">
+        <item name="android:background">@drawable/text_background</item>
     </style>
 
 </resources>
